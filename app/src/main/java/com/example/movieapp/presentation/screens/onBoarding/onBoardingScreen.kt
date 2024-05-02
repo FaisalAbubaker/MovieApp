@@ -25,6 +25,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,13 +39,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.movieapp.R
 import com.example.movieapp.presentation.navigation.Screens
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(navController: NavController) {
+fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navController: NavHostController) {
 
     val images = listOf(
         R.drawable.movie_night_amico,
@@ -62,74 +65,86 @@ fun OnBoardingScreen(navController: NavController) {
         "Reserve your favorite seat in just a few steps. No waiting, no hassle!",
         "Personalize your experience! With movie recommendations and exclusive offers, enjoy the cinema your way."
     )
-    val pagerState = rememberPagerState(
-        pageCount = { 3 }
-    )
-    Box() {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            PageIndicator(3, pagerState.currentPage, Modifier.padding(30.dp))
-            HorizontalPager(state = pagerState, Modifier.wrapContentSize()) { currentPage ->
-                Column(
-                    Modifier
-                        .wrapContentSize()
-                        .padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = images[currentPage]),
-                        contentDescription = "",
-                        Modifier.size(400.dp)
-                    )
-                    Text(
-                        text = titles[currentPage], textAlign = TextAlign.Center,
-                        fontSize = 25.sp, fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = descriptions[currentPage], textAlign = TextAlign.Center,
-                        fontSize = 20.sp, color = Color.White
-                    )
-                }
-            }
+
+    val onBoardingCompleted by onBoardingScreenViewModel.onBoardingCompleted.collectAsState()
+
+
+    if (onBoardingCompleted) {
+        navController.navigate(Screens.MainScreen.route)
+    } else {
+
+        val pagerState = rememberPagerState(
+            pageCount = { 3 }
+        )
+
+
+        Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)) {
             Box(
-                modifier = Modifier
+                Modifier
                     .rotate(270f)
+                    .height(50.dp)
+                    .fillMaxWidth()
                     .paint(
-                        painterResource(id = R.drawable.brutalist),
+                        painter = painterResource(id = R.drawable.brutalist),
                         contentScale = ContentScale.FillWidth
                     )
-                    .fillMaxWidth()
-            )
-            {
-                if(pagerState.currentPage == 2) {
-                    Button(
-                        onClick = { navController.navigate(Screens.MainScreen.route) },
+                    .align(Alignment.BottomCenter)
+            ) {
+            }
+            Column(
+                Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                PageIndicator(3, pagerState.currentPage, Modifier.padding(30.dp))
+                HorizontalPager(state = pagerState, Modifier.wrapContentSize()) { currentPage ->
+                    Column(
                         Modifier
-                            .rotate(90f)
-                            .align(Alignment.Center)
-                            .width(400.dp)
-                            .height(80.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF374951)
-                        ),
-                        shape = RoundedCornerShape(10)
+                            .wrapContentSize()
+                            .padding(12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Text(
-                            text = "Let's get started",
-                            fontSize = 20.sp
+                        Image(
+                            painter = painterResource(id = images[currentPage]),
+                            contentDescription = "",
+                            Modifier.size(400.dp)
                         )
-
+                        Text(
+                            text = titles[currentPage], textAlign = TextAlign.Center,
+                            fontSize = 25.sp, fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = descriptions[currentPage], textAlign = TextAlign.Center,
+                            fontSize = 20.sp, color = Color.White
+                        )
                     }
                 }
+
             }
+            if (pagerState.currentPage == 2) {
+                Button(
+                    onClick = { navController.navigate(Screens.MainScreen.route)
+                        onBoardingScreenViewModel.saveOnBoardingState(true)},
+                    Modifier
+                        .padding(bottom = 40.dp)
+                        .align(Alignment.BottomCenter)
+                        .width(400.dp)
+                        .height(80.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF374951)
+                    ),
+                    shape = RoundedCornerShape(10)
+                ) {
+                    Text(
+                        text = "Let's get started",
+                        fontSize = 20.sp
+                    )
 
+                }
+
+            }
         }
-
     }
 }
 
