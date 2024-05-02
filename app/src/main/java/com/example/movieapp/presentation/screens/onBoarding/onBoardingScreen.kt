@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.movieapp.R
 import com.example.movieapp.presentation.navigation.Screens
+import com.example.movieapp.presentation.navigation.popUpToTop
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -70,7 +71,9 @@ fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navCo
 
 
     if (onBoardingCompleted) {
-        navController.navigate(Screens.MainScreen.route)
+        navController.navigate(Screens.MainScreen.route){
+            popUpToTop(navController)
+        }
     } else {
 
         val pagerState = rememberPagerState(
@@ -124,7 +127,9 @@ fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navCo
             }
             if (pagerState.currentPage == 2) {
                 Button(
-                    onClick = { navController.navigate(Screens.MainScreen.route)
+                    onClick = { navController.navigate(Screens.MainScreen.route){
+                        popUpToTop(navController)
+                    }
                         onBoardingScreenViewModel.saveOnBoardingState(true)},
                     Modifier
                         .padding(bottom = 40.dp)

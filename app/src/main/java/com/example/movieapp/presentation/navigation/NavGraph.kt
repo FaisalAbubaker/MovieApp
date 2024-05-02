@@ -2,7 +2,9 @@ package com.example.movieapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -22,5 +24,11 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
             val viewModel = hiltViewModel<PopularViewModel>()
             MainScreen(navController = navController, viewModel.popularMovieState)
         }
+    }
+}
+
+fun NavOptionsBuilder.popUpToTop(navController: NavController){
+    popUpTo(navController.currentBackStackEntry?.destination?.route ?: return){
+        inclusive = true
     }
 }
