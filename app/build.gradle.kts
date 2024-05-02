@@ -99,6 +99,11 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.compose)
 
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.androidx.hilt.navigation.compose)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
