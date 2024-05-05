@@ -20,7 +20,7 @@ class OnBoardingScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val onBoardingCompleted = MutableStateFlow(false)
-    var startDestination: String = Screens.OnBoardingScreen.route
+    var startDestination: String = Screens.OnBoarding.route
 
     init {
         getOnBoardingState()
@@ -30,7 +30,7 @@ class OnBoardingScreenViewModel @Inject constructor(
         viewModelScope.launch {
             onBoardingCompleted.value = getDataFromDataStore().stateIn(viewModelScope).value
             startDestination =
-                if (onBoardingCompleted.value) Screens.MainScreen.route else Screens.OnBoardingScreen.route
+                if (onBoardingCompleted.value) Screens.Home.route else Screens.OnBoarding.route
 
         }
     }

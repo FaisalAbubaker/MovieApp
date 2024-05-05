@@ -1,6 +1,11 @@
 package com.example.movieapp.presentation.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -10,19 +15,33 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.movieapp.presentation.screens.onBoarding.OnBoardingScreen
 import com.example.movieapp.presentation.screens.onBoarding.OnBoardingScreenViewModel
-import com.example.movieapp.presentation.screens.popular.MainScreen
+import com.example.movieapp.presentation.screens.popular.PopularMovieScreen
 import com.example.movieapp.presentation.screens.popular.PopularViewModel
 
 @Composable
-fun NavGraph(navController: NavHostController = rememberNavController()) {
+fun MovieNavGraph(navController: NavHostController = rememberNavController()) {
     val onBoardingScreenViewModel: OnBoardingScreenViewModel = hiltViewModel()
     NavHost(navController = navController, startDestination = onBoardingScreenViewModel.startDestination){
-        composable(route = Screens.OnBoardingScreen.route){
+        composable(route = Screens.OnBoarding.route){
             OnBoardingScreen(onBoardingScreenViewModel, navController)
         }
-        composable(route = Screens.MainScreen.route){
+        composable(route = Screens.Home.route){
             val viewModel = hiltViewModel<PopularViewModel>()
-            MainScreen(navController = navController, viewModel.popularMovieState)
+            PopularMovieScreen(navController = navController, viewModel.popularMovieState)
+        }
+        composable(Screens.Search.route) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)) {
+
+            }
+        }
+        composable(Screens.Profile.route) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)) {
+
+            }
         }
     }
 }

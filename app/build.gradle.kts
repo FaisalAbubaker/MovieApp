@@ -105,7 +105,8 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
 
-
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -71,7 +71,7 @@ fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navCo
 
 
     if (onBoardingCompleted) {
-        navController.navigate(Screens.MainScreen.route){
+        navController.navigate(Screens.Home.route){
             popUpToTop(navController)
         }
     } else {
@@ -127,7 +127,7 @@ fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navCo
             }
             if (pagerState.currentPage == 2) {
                 Button(
-                    onClick = { navController.navigate(Screens.MainScreen.route){
+                    onClick = { navController.navigate(Screens.Home.route){
                         popUpToTop(navController)
                     }
                         onBoardingScreenViewModel.saveOnBoardingState(true)},
