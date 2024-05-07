@@ -11,6 +11,7 @@ sealed class Screens(val route: String){
     data object Home : Screens("popular_movie_screen")
     data object Search: Screens("search_route")
     data object Profile: Screens("profile_route")
+    data object Details: Screens("movie_details")
 }
 
 data class BottomNavigationItem(

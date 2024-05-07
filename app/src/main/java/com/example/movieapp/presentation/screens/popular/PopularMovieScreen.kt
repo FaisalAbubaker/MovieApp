@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.screens.popular
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import com.example.movieapp.Constant.MOVIE_IMAGE_URL
 import com.example.movieapp.R
 import com.example.movieapp.model.BackdropSize
 import com.example.movieapp.model.Results
+import com.example.movieapp.presentation.navigation.Screens
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
@@ -44,7 +46,10 @@ fun PopularMovieScreen(navController: NavHostController,
                         model = "${MOVIE_IMAGE_URL}${BackdropSize.w300}/${moviePagingItems[index]?.posterPath}",
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(2.dp),
+                            .padding(2.dp)
+                            .clickable {
+                                      navController.navigate("${Screens.Details.route}/${moviePagingItems[index]?.id}")
+                            },
                         contentScale = ContentScale.FillWidth,
                         error = painterResource(id = R.drawable.no_poster),
                         placeholder = painterResource(id = R.drawable.no_poster)

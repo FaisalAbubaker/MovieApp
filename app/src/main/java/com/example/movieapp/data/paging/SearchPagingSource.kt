@@ -1,21 +1,21 @@
 package com.example.movieapp.data.paging
 
+import androidx.datastore.core.IOException
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.model.Results
-import okio.IOException
 
-class MoviePagingSource(
-    private val movieAPI: MovieAPI
-): PagingSource<Int, Results>() {
+class SearchPagingSource(private val movieAPI: MovieAPI,
+    private val query: String): PagingSource<Int, Results>()  {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Results>{
         return try{
             val currentPage = params.key?: 1
-            val movies = movieAPI.getUpcoming(
+            val movies = movieAPI.searchMovie(
                 apiKey = BuildConfig.TMDB_API_KEY,
+                query = query,
                 page = currentPage
             )
             LoadResult.Page(
@@ -29,8 +29,6 @@ class MoviePagingSource(
             return LoadResult.Error(exception)
         }
     }
-
-
 
     override fun getRefreshKey(state: PagingState<Int, Results>): Int? {
         return state.anchorPosition
