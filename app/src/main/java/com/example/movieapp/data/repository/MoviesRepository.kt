@@ -9,12 +9,14 @@ import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.model.MovieDetailResponse
 import com.example.movieapp.model.Results
 import com.example.movieapp.model.UIState
+import com.example.movieapp.model.UserAccount
+import com.example.movieapp.model.UserTokenResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PopularMoviesRepository @Inject constructor(
+class MoviesRepository @Inject constructor(
     val movieApi: MovieAPI
 ) {
 //    suspend fun getPopularMovies(): UIState<SearchResponse>{
@@ -54,6 +56,45 @@ class PopularMoviesRepository @Inject constructor(
                 return UIState.Empty(message = response.message().toString())
             }
         }catch (e: Exception){
+            return UIState.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getUserToken(): UIState<UserTokenResponse>{
+        try {
+            val response = movieApi.getUserToken()
+            if(response.isSuccessful && response.body() != null){
+                return UIState.Success(response.body())
+            } else {
+                return UIState.Empty(message = response.message().toString())
+            }
+        } catch (e:Exception){
+            return UIState.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getSessionId(requestToken: String): UIState<UserTokenResponse>{
+        try {
+            val response = movieApi.getSessionId(requestToken = requestToken)
+            if(response.isSuccessful && response.body() != null){
+                return UIState.Success(response.body())
+            } else {
+                return UIState.Empty(message = response.message().toString())
+            }
+        } catch (e:Exception){
+            return UIState.Error(e.message.toString())
+        }
+    }
+
+    suspend fun getUserAccount(sessionId: String): UIState<UserAccount>{
+        try {
+            val response = movieApi.getUserAccount(sessionId = sessionId)
+            if(response.isSuccessful && response.body() != null){
+                return UIState.Success(response.body())
+            } else {
+                return UIState.Empty(message = response.message().toString())
+            }
+        } catch (e:Exception){
             return UIState.Error(e.message.toString())
         }
     }

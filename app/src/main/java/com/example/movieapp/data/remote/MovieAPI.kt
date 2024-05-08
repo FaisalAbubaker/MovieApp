@@ -3,6 +3,8 @@ package com.example.movieapp.data.remote
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.model.MovieDetailResponse
 import com.example.movieapp.model.SearchResponse
+import com.example.movieapp.model.UserAccount
+import com.example.movieapp.model.UserTokenResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,7 +28,7 @@ interface MovieAPI{
         @Path("movie_id")
         movieId: Int,
         @Query("api_key")
-        api_key: String = BuildConfig.TMDB_API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query("language")
         language: String = "en-US",
         @Query("append_to_response")
@@ -45,5 +47,27 @@ interface MovieAPI{
         page: Int = 1,
 
         ): Response<SearchResponse>
+
+    @GET("3/authentication/token/new")
+    suspend fun getUserToken(
+        @Query("api_key")
+        apiKey: String = BuildConfig.TMDB_API_KEY
+    ): Response<UserTokenResponse>
+
+    @GET("3/authentication/session/new")
+    suspend fun getSessionId(
+        @Query("api_key")
+        apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("request_token")
+        requestToken: String
+    ): Response<UserTokenResponse>
+
+    @GET("3/account")
+    suspend fun getUserAccount(
+        @Query("api_key")
+        apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("session_id")
+        sessionId: String
+    ): Response<UserAccount>
 }
 

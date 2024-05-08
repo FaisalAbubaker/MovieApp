@@ -1,11 +1,6 @@
 package com.example.movieapp.presentation.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -21,6 +16,8 @@ import com.example.movieapp.presentation.screens.onBoarding.OnBoardingScreen
 import com.example.movieapp.presentation.screens.onBoarding.OnBoardingScreenViewModel
 import com.example.movieapp.presentation.screens.popular.PopularMovieScreen
 import com.example.movieapp.presentation.screens.popular.PopularViewModel
+import com.example.movieapp.presentation.screens.profile.ProfileScreen
+import com.example.movieapp.presentation.screens.profile.ProfileScreenViewModel
 import com.example.movieapp.presentation.screens.search.SearchScreen
 import com.example.movieapp.presentation.screens.search.SearchScreenViewModel
 
@@ -40,11 +37,8 @@ fun MovieNavGraph(navController: NavHostController = rememberNavController()) {
             SearchScreen(navController = navController, searchScreenViewModel = viewModel)
         }
         composable(Screens.Profile.route) {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Gray)) {
-
-            }
+            val viewModel = hiltViewModel<ProfileScreenViewModel>()
+            ProfileScreen(viewModel, navController)
         }
         composable(
             route = "${Screens.Details.route}/{movie_id}",
