@@ -1,5 +1,8 @@
 package com.example.movieapp.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class SearchResponse(
@@ -32,4 +35,19 @@ data class Results(
 data class Dates(
     @SerializedName("maximum") var maximum: String? = null,
     @SerializedName("minimum") var minimum: String? = null
+)
+
+@Entity(tableName = "movies_table")
+data class Movie(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
+    var id: Int? = null,
+    @ColumnInfo(name = "title")
+    val title: String? = null,
+    @ColumnInfo(name = "backdrop_path")
+    val backdropPath: String? = null,
+    @ColumnInfo(name = "poster_path")
+    val posterPath: String? = null,
+    @ColumnInfo(name = "page")
+    val page: Int? = null
 )

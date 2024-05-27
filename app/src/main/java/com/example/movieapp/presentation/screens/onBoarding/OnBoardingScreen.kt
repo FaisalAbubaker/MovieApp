@@ -85,7 +85,7 @@ fun OnBoardingScreen(onBoardingScreenViewModel: OnBoardingScreenViewModel, navCo
             Box(
                 Modifier
                     .rotate(270f)
-                    .height(50.dp)
+                    .height(25.dp)
                     .fillMaxWidth()
                     .paint(
                         painter = painterResource(id = R.drawable.brutalist),

@@ -3,6 +3,7 @@ package com.example.movieapp.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.movieapp.data.dao.MovieDao
 import com.example.movieapp.data.paging.MoviePagingSource
 import com.example.movieapp.data.paging.SearchPagingSource
 import com.example.movieapp.data.remote.MovieAPI
@@ -17,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class MoviesRepository @Inject constructor(
-    val movieApi: MovieAPI
+    val movieApi: MovieAPI,
+    val movieDao: MovieDao
 ) {
 //    suspend fun getPopularMovies(): UIState<SearchResponse>{
 //        try{
@@ -35,7 +37,7 @@ class MoviesRepository @Inject constructor(
         return Pager(
             config = PagingConfig(pageSize = 15, prefetchDistance = 2),
             pagingSourceFactory = {
-                MoviePagingSource(movieApi)
+                MoviePagingSource(movieApi, movieDao)
             }
         ).flow
     }
